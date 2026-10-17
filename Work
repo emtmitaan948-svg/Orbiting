@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #171821;
+  color: white;
+  display: flex;
+  height: 100vh;
+}
+.servers {
+  width: 64px;
+  background: #101116;
+  padding: 10px;
+}
+.logo {
+  background: #7965ff;
+  border-radius: 18px;
+  padding: 14px 8px;
+  text-align: center;
+  font-weight: bold;
+}
+.channels {
+  width: 145px;
+  background: #20212c;
+  padding: 14px 10px;
+}
+.channels h3 { font-size: 17px; }
+.channel {
+  padding: 10px 6px;
+  color: #b9bac8;
+  border-radius: 6px;
+}
+.channel.active {
+  background: #353348;
+  color: white;
+}
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+header {
+  padding: 18px 12px;
+  border-bottom: 1px solid #30313d;
+  font-weight: bold;
+}
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+}
+.msg { margin-bottom: 18px; }
+.name { color: #a99cff; font-weight: bold; }
+form {
+  display: flex;
+  padding: 12px;
+  gap: 8px;
+}
+input {
+  min-width: 0;
+  flex: 1;
+  padding: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #292a37;
+  color: white;
+}
+button {
+  background: #7965ff;
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+<aside class="servers">
+  <div class="logo">O</div>
+</aside>
+<aside class="channels">
+  <h3>Orbit</h3>
+  <div class="channel active"># general</div>
+  <div class="channel"># gaming</div>
+  <div class="channel"># memes</div>
+</aside>
+<main class="chat">
+  <header># general</header>
+  <section class="messages" id="messages">
+    <div class="msg">
+      <span class="name">Orbit</span>
+      <div>Welcome to Orbit! 🚀</div>
+    </div>
+  </section>
+  <form id="form">
+    <input id="message" placeholder="Message #general..." autocomplete="off">
+    <button>Send</button>
+  </form>
+</main>
+<script>
+const form = document.getElementById("form");
+const input = document.getElementById("message");
+const messages = document.getElementById("messages");
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+
+  const msg = document.createElement("div");
+  msg.className = "msg";
+
+  const name = document.createElement("span");
+  name.className = "name";
+  name.textContent = "You";
+
+  const content = document.createElement("div");
+  content.textContent = text;
+
+  msg.append(name, content);
+  messages.appendChild(msg);
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
+});
+</script>
+</body>
+</html>
