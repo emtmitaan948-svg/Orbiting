@@ -2,135 +2,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Orbit</title>
-<style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #171821;
-  color: white;
-  display: flex;
-  height: 100vh;
-}
-.servers {
-  width: 64px;
-  background: #101116;
-  padding: 10px;
-}
-.logo {
-  background: #7965ff;
-  border-radius: 18px;
-  padding: 14px 8px;
-  text-align: center;
-  font-weight: bold;
-}
-.channels {
-  width: 145px;
-  background: #20212c;
-  padding: 14px 10px;
-}
-.channels h3 { font-size: 17px; }
-.channel {
-  padding: 10px 6px;
-  color: #b9bac8;
-  border-radius: 6px;
-}
-.channel.active {
-  background: #353348;
-  color: white;
-}
-.chat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-header {
-  padding: 18px 12px;
-  border-bottom: 1px solid #30313d;
-  font-weight: bold;
-}
-.messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px;
-}
-.msg { margin-bottom: 18px; }
-.name { color: #a99cff; font-weight: bold; }
-form {
-  display: flex;
-  padding: 12px;
-  gap: 8px;
-}
-input {
-  min-width: 0;
-  flex: 1;
-  padding: 12px;
-  border: 0;
-  border-radius: 9px;
-  background: #292a37;
-  color: white;
-}
-button {
-  background: #7965ff;
-  color: white;
-  border: 0;
-  border-radius: 9px;
-  padding: 10px;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orbit Chat</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #171821;
+      color: #f5f5ff;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+    }
+    aside {
+      width: 110px;
+      background: #20212c;
+      padding: 15px 10px;
+    }
+    .logo {
+      background: #7865ff;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+    .channel {
+      padding: 12px 5px;
+      color: #b8b9ca;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .channel.active { background: #39364f; color: white; }
+    main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 18px;
+      border-bottom: 1px solid #333441;
+      font-weight: bold;
+    }
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px;
+    }
+    .message { margin-bottom: 18px; overflow-wrap: anywhere; }
+    .username { color: #a99bff; font-weight: bold; }
+    form { display: flex; padding: 12px; gap: 8px; }
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 13px;
+      background: #292a38;
+      color: white;
+      border: 1px solid #414253;
+      border-radius: 9px;
+    }
+    button {
+      border: 0;
+      background: #7865ff;
+      color: white;
+      padding: 12px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<aside class="servers">
-  <div class="logo">O</div>
-</aside>
-<aside class="channels">
-  <h3>Orbit</h3>
-  <div class="channel active"># general</div>
-  <div class="channel"># gaming</div>
-  <div class="channel"># memes</div>
-</aside>
-<main class="chat">
-  <header># general</header>
-  <section class="messages" id="messages">
-    <div class="msg">
-      <span class="name">Orbit</span>
-      <div>Welcome to Orbit! 🚀</div>
+  <aside>
+    <div class="logo">◉ ORBIT</div>
+    <div class="channel active"># general</div>
+    <div class="channel"># gaming</div>
+    <div class="channel"># memes</div>
+  </aside>
+
+  <main>
+    <header id="title"># general</header>
+    <div id="messages">
+      <div class="message">
+        <span class="username">Orbit</span>
+        <div>Welcome to Orbit! 🚀 Your community starts here.</div>
+      </div>
     </div>
-  </section>
-  <form id="form">
-    <input id="message" placeholder="Message #general..." autocomplete="off">
-    <button>Send</button>
-  </form>
-</main>
-<script>
-const form = document.getElementById("form");
-const input = document.getElementById("message");
-const messages = document.getElementById("messages");
 
-form.addEventListener("submit", function(event) {
-  event.preventDefault();
-  const text = input.value.trim();
-  if (!text) return;
+    <form id="chatForm">
+      <input id="chatInput" placeholder="Message #general..." autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </main>
 
-  const msg = document.createElement("div");
-  msg.className = "msg";
+  <script>
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("chatInput");
+    const messages = document.getElementById("messages");
+    const title = document.getElementById("title");
 
-  const name = document.createElement("span");
-  name.className = "name";
-  name.textContent = "You";
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
 
-  const content = document.createElement("div");
-  content.textContent = text;
+      const message = document.createElement("div");
+      message.className = "message";
 
-  msg.append(name, content);
-  messages.appendChild(msg);
-  input.value = "";
-  messages.scrollTop = messages.scrollHeight;
-});
-</script>
+      const username = document.createElement("span");
+      username.className = "username";
+      username.textContent = "You";
+
+      const content = document.createElement("div");
+      content.textContent = text;
+
+      message.append(username, content);
+      messages.appendChild(message);
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    document.querySelectorAll(".channel").forEach(function(channel) {
+      channel.addEventListener("click", function() {
+        document.querySelectorAll(".channel").forEach(function(c) {
+          c.classList.remove("active");
+        });
+        channel.classList.add("active");
+        title.textContent = channel.textContent.trim();
+        messages.innerHTML = '<div class="message"><span class="username">Orbit</span><div>Welcome to ' + channel.textContent.trim() + '! 🚀</div></div>';
+      });
+    });
+  </script>
 </body>
 </html>
